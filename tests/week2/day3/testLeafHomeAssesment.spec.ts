@@ -3,6 +3,7 @@ import { test, expect, Locator } from "@playwright/test"
 test("TestLeaf assesment", async ({ page }) => {
 
     await page.goto(" http://leaftaps.com/opentaps/control/main")
+    
 
     // login the les page
     await page.locator("input[id='username']").fill("democsr2")
