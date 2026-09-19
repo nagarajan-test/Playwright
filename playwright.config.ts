@@ -14,11 +14,11 @@ import { defineConfig, devices } from '@playwright/test';
  */
 export default defineConfig({
   testDir: './tests',
-  timeout: 30000,
+  // timeout: 30000,
 
-  expect: {
-    timeout: 10000,
-  },
+  // expect: {
+  //   timeout: 10000,
+  // },
 
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -47,6 +47,7 @@ export default defineConfig({
       use: {
         ...devices['Desktop Chrome'],
         channel: 'chrome',
+        permissions: []
       },
     },
 
