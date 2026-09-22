@@ -1,6 +1,6 @@
 import { test, expect, Locator } from "@playwright/test"
 
-test("Decathlon demo", async ({ page }) => {
+test("Pvr cinema demo", async ({ page }) => {
 
     await page.goto(" https://www.pvrcinemas.com")
     await page.getByRole('heading', { name: 'Chennai' }).click()
@@ -14,7 +14,10 @@ test("Decathlon demo", async ({ page }) => {
     await page.locator("//button[@aria-label='Submit']").click()
     // await page.locator("//button[normalize-space()='Accept']").click()
     // Using Playwright's text selector engine
-    await page.locator('button:has-text("Accept")').click();
+    const popupbtn: Locator = page.locator('button:has-text("Accept")')
+    await expect(popupbtn).toBeVisible({ timeout: 10000 })
+    await popupbtn.click()
+    // await page.locator('button:has-text("Accept")').click();
     const availableSeats = page.locator("span.seat-current-pvr");
     console.log("Available seats:", await availableSeats.count());
     await availableSeats.first().click();
