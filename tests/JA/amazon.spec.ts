@@ -2,17 +2,34 @@ import { test, expect, Locator } from "@playwright/test";
 
 test("amazon get lowest priced mobile", async ({ page }) => {
     await page.goto('https://www.amazon.in/')
-    await page.locator('//input[@id="twotabsearchtextbox"]').fill('mobiles')
-    await page.locator('//input[@id="nav-search-submit-button"]').click()
-    let products: Locator[] = await page.locator('//div[@role="listitem"]').all()
-    let productCount: number = products.length
-    let lowestPrice = Infinity
-    let prodductName: string = ''
-    let productPrice = ''
-    for (let pt of products) {
-        productPrice = await pt.locator("//span[@class='a-price-whole']").innerText()
-        console.log(productPrice, " \t")
+    let searchBox = page.locator('//input[@id="twotabsearchtextbox"]')
+    await searchBox.fill('mobiles')
+    await searchBox.press('Enter')
+    await page.waitForLoadState("domcontentloaded");
+
+
+    const products = page.locator(
+        '//div[@data-component-type="s-search-result"]'
+    );
+    const productsCount = await products.count()
+    const priceTexts = (await products.locator(".a-price-whole").allInnerTexts())
+    const price: number[] = priceTexts.map(price => Number(price.replace(/,/g, '')))
+    const sortedPrice = price.sort((a, b) => a - b)
+    // console.log(sortedPrice)
+    let lowestPrice = sortedPrice[0]
+    for (let i = 0; i < productsCount; i++) {
+        const priceLocator: Locator = products.nth(i).locator('.a-price-whole')
+        if (await priceLocator.count() === 0) {
+            continue
+        }
+        const priceText = await priceLocator.first().innerText()
+        const currentPrice = Number(priceText.replace(/,/g, ''))
+        if (currentPrice === lowestPrice) {
+            console.log(await products.nth(i).locator('h2').innerText(), await products.nth(i).locator('.a-price-whole').innerText(), lowestPrice)
+            break
+        }
     }
+
 
 
 })

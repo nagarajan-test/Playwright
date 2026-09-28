@@ -12,5 +12,9 @@
     "@types/node": "^26.6.1",
     "tsx": "^4.23.13",
     "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "csv-parse": "^7.0.3",
+    "csv-parser": "^3.2.1"
   }
 }
