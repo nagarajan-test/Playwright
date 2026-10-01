@@ -58,7 +58,7 @@ test("handling window leaf taps", async ({ page, context }) => {
         page.locator('(//img[@src="/images/fieldlookup.gif"])[2]').click()
     ]);
 
-    //select the first lead using direct text or first lead
+    //select the lead using direct text or first lead
     await toPage.locator('(//a[@class="linktext"])[6]').click()
     // await toPage.locator("a:has-text('10038')").first().click()
 
